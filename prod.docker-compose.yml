@@ -1,0 +1,21 @@
+version: '3.2'
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: .prod.dockerfile
+  web:
+    build:
+      context: ./client
+      dockerfile: .prod.dockerfile
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - api
+      - web
+
